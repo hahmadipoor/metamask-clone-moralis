@@ -47,8 +47,7 @@ function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChai
   const [tokens, setTokens] = useState(null);
   const [nfts, setNfts] = useState(null);
   const [balance, setBalance] = useState(0);
-  //const [fetching, setFetching] = useState(true); // myNote: this line shoud be uncommented
-  const [fetching, setFetching] = useState(false); // myNote: this line should be removed
+  const [fetching, setFetching] = useState(true); 
   const [amountToSend, setAmountToSend] = useState(null);
   const [sendToAddress, setSendToAddress] = useState(null);
   const [processing, setProcessing] = useState(false);
@@ -188,27 +187,22 @@ function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChai
 
   async function getAccountTokens() {
     
-    // myNote: the following lines should be uncommented
-    // setFetching(true);
-    // const res = await axios.get(`http://localhost:3001/getTokens`, {
-    //   params: {
-    //     userAddress: wallet,
-    //     chain: selectedChain,
-    //   },
-    // });
-    // const response = res.data;
-    // if (response.tokens.length > 0) {
-    //   setTokens(response.tokens);
-    // }
-    // if (response.nfts.length > 0) {
-    //   setNfts(response.nfts);
-    // }
-    // setBalance(response.balance);
-    // setFetching(false);
-
-    // myNote: the following two lines should be removed
-    setTokens(sampleTokens);
-    setNfts(sampleNfts);
+    setFetching(true);
+    const res = await axios.get(`http://localhost:3001/getTokens`, {
+      params: {
+        userAddress: wallet,
+        chain: selectedChain,
+      },
+    });
+    const response = res.data;
+    if (response.tokens.length > 0) {
+      setTokens(response.tokens);
+    }
+    if (response.nfts.length > 0) {
+      setNfts(response.nfts);
+    }
+    setBalance(response.balance);
+    setFetching(false);
   }
 
   function logout() {
@@ -221,7 +215,8 @@ function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChai
   }
 
   useEffect(() => {
-    if (!wallet || !selectedChain) return;
+    if (!wallet || !selectedChain) 
+      return;
     setNfts(null);
     setTokens(null);
     setBalance(0);
